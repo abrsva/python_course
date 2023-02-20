@@ -1,17 +1,14 @@
 import csv
 
-a = {}
 with open('stage3_test.csv', 'r', encoding='utf-8') as f:
     reader = csv.DictReader(f, delimiter=',')
-    for row in reader:
+    a = list(reader)
+    for row in a:
         row.pop('Images')
         row.pop('Description')
-        # a['Id'] = row['Id']
-        # a['Title'] = row['Title']
-        # a['Price'] = row['Price']
 
-with open('result3.csv', 'w', encoding='utf-8') as d:
-    fieldnames = row.keys()
-    writer = csv.DictWriter(d, fieldnames=fieldnames)
+with open('result3.csv', 'w', newline='', encoding='utf-8') as d:
+    writer = csv.DictWriter(d, delimiter=',', fieldnames=a[0].keys())
     writer.writeheader()
-    writer.writerow(row)
+    for row in a:
+        writer.writerow(row)
