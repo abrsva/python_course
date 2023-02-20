@@ -10,5 +10,4 @@ with open('stage3_test.csv', 'r', encoding='utf-8') as f:
 with open('result3.csv', 'w', newline='', encoding='utf-8') as d:
     writer = csv.DictWriter(d, delimiter=',', fieldnames=a[0].keys())
     writer.writeheader()
-    for row in a:
-        writer.writerow(row)
+    writer.writerows(row)
