@@ -10,18 +10,18 @@ class TFIDF:
     def __init__(self, directory):
         self.__idf = defaultdict(float)
         self.__directory = directory
-        self._time = 0
+        self.__time = 0
         self.__load_instance()
 
     def __load_instance(self):
         try:
             with open(self.__directory + ".pkl", "rb") as file:
                 loaded_object = pickle.load(file)
-                if loaded_object._time != os.path.getmtime(self.__directory):
+                if loaded_object.__time != os.path.getmtime(self.__directory):
                     print("Recalculating")
                     self.__calc_instance()
                     return
-            self._time = loaded_object._time
+            self.__time = loaded_object.__time
             self.__idf = loaded_object.__idf
             print("Loaded instance from file")
         except FileNotFoundError:
@@ -29,7 +29,7 @@ class TFIDF:
 
     def __calc_instance(self):
         self.__calc()
-        self._time = os.path.getmtime(self.__directory)
+        self.__time = os.path.getmtime(self.__directory)
         with open(self.__directory + ".pkl", "wb") as file:
             pickle.dump(self, file)
         print("Calculated")
@@ -44,8 +44,8 @@ class TFIDF:
         for word in idf_freq:
             self.__idf[word] = math.log2(len(files) / len(idf_freq[word]))
 
-    @classmethod
-    def calc_tf(cls, filename):
+    @staticmethod
+    def calc_tf(filename):
         tf = defaultdict(float)
         with open(filename, "r", encoding="UTF8") as f:
             words = list(filter(lambda x: len(x) > 0, re.split("[^а-яА-Я]+", f.read().lower())))
@@ -59,3 +59,6 @@ class TFIDF:
 
     def get_idf(self):
         return self.__idf.copy()
+
+    def get_time(self):
+        return self.__time

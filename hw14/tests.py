@@ -17,7 +17,7 @@ class Tests(unittest.TestCase):
         self.assertAlmostEqual(tf["кто"], 1 / 5)
 
     def test_idf(self):
-        self.assertEqual(self.tfidf._time, os.path.getmtime("test"))
+        self.assertEqual(self.tfidf.get_time(), os.path.getmtime("test"))
         idf = self.tfidf.get_idf()
         self.assertEqual(len(set(idf.values())), len(os.listdir("test")))
         self.assertAlmostEqual(idf["заплачу"], 2.321928094887362)
